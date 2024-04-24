@@ -1,11 +1,110 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const UserPage = ({ email }) => {
+    const [userData, setUserData] = useState(null);
+    const [updatedWeight, setUpdatedWeight] = useState('');
+    const [updatedAge, setUpdatedAge] = useState('');
+    const [updatedHeight, setUpdatedHeight] = useState('');
+
+    useEffect(() => {
+        fetch(`http://127.0.0.1:5000/user/${email}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setUserData(data);
+                setUpdatedWeight(data.weight);
+                setUpdatedAge(data.age);
+                setUpdatedHeight(data.height);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }, [email]);
+
+
+
+    const handleUpdate = () => {
+        fetch(`http://127.0.0.1:5000/user/${email}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: userData.email,
+                weight: updatedWeight,
+                age: updatedAge,
+                height: updatedHeight,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                // Update the userData state with the updated values
+                setUserData({ ...userData, weight: updatedWeight, age: updatedAge, height: updatedHeight });
+                alert('User data updated successfully');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Failed to update user data');
+            });
+    };
+
+
+    if (!userData) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div style={styles.container}>
-            <h2>Welcome, {email}!</h2>
-            <p>This is your user page.</p>
-            <button style={styles.button} onClick={() => alert('Logging out...')}>Logout</button>
+
+            <h2>Welcome, {userData.email}!</h2>
+            <p>Weight: {userData.weight} kg</p>
+            <input
+                type="text"
+                value={updatedWeight}
+                onChange={(e) => setUpdatedWeight(e.target.value)}
+                placeholder="Enter new weight"
+            />
+            <p>Age: {userData.age} years</p>
+            <input
+                type="text"
+                value={updatedAge}
+                onChange={(e) => setUpdatedAge(e.target.value)}
+                placeholder="Enter new age"
+            />
+            <p>Height: {userData.height} cm</p>
+            <input
+                type="text"
+                value={updatedHeight}
+                onChange={(e) => setUpdatedHeight(e.target.value)}
+                placeholder="Enter new height"
+            />
+            <br></br><br></br>
+            <button onClick={handleUpdate}>Update</button>
+            <br></br>
+            <button onClick={() => alert('Logging out...')}>Logout</button>
+            <br></br><br></br>
+            <div>
+                <button>Dashboard</button>
+                <br></br><br></br>
+                <Link to="/intakes">
+                    <button>Go to Intakes</button>
+                </Link>
+                <br></br><br></br>
+                <button>Exercises</button>
+                <br></br><br></br>
+                <button>BMT</button>
+                <br></br><br></br>
+                <button>Liquid</button>
+                <br></br><br></br>
+                <button>Progress</button>
+                <br></br><br></br>
+
+            </div>
         </div>
     );
 };
@@ -20,15 +119,6 @@ const styles = {
         margin: '20px auto',
         maxWidth: '400px',
         textAlign: 'center',
-    },
-    button: {
-        padding: '10px 20px',
-        backgroundColor: '#007bff',
-        color: 'white',
-        border: 'none',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        marginTop: '20px',
     },
 };
 

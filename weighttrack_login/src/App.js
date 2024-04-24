@@ -27,17 +27,28 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import LoginPage from './LoginPage';
 import UserPage from './UserPage';
 import Register from './Register';
+import Intakes from './Intakes';
+import IntakesPage from './IntakesPage';
 
 const App = () => {
     const isLoggedIn = !!localStorage.getItem('user');
-    const email = JSON.parse(localStorage.getItem('user'))?.email;
+    // const email = JSON.parse(localStorage.getItem('user'))?.email;
+    // const age = JSON.parse(localStorage.getItem('user'))?.age;
+    // const weight = JSON.parse(localStorage.getItem('user'))?.weight;
+    // const height = JSON.parse(localStorage.getItem('user'))?.height;
+    const userData = JSON.parse(localStorage.getItem('user'));
+    const { email, age, weight, height } = userData || {};
 
     return (
         <Router>
             <Routes>
                 <Route path="/" element={<LoginPage />} />
-                <Route path="/userpage" element={<UserPage email={email} />} />
+                <Route path="/userpage" element={<UserPage email={email} weight={weight} age={age} height={height} />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/intakes" element={<Intakes email={email}/>} />
+                <Route path="/intakesPage" element={<IntakesPage email={email}/>} />
+               
+
             </Routes>
         </Router>
 

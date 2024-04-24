@@ -6,6 +6,9 @@ const LoginPage = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loggingIn, setLoggingIn] = useState(false);
+    const [height, setHeight] = useState(0);
+    const [weight, setWeight] = useState(0);
+    const [age, setAge] = useState(10);
 
     const boxStyle = {
         border: '1px solid #ccc',
@@ -63,7 +66,7 @@ const LoginPage = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ email, password, age, weight, height }),
         })
             .then((r) => r.json())
             .then((r) => {
@@ -71,7 +74,7 @@ const LoginPage = () => {
 
                 if ('Authentication Successfully' === r.message) {
                     window.alert('Signing In, Welcome to Weight Track Pro');
-                    localStorage.setItem('user', JSON.stringify({ email, token: r.token }));
+                    localStorage.setItem('user', JSON.stringify({ email, age, token: r.token }));
                     window.location.href = '/userpage';
                    
                 } else {

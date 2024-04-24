@@ -88,11 +88,8 @@ const Register = () => {
             .then((r) => r.json())
             .then((r) => {
                 console.log('Response from server:', r);
-                console.log(r.message)
-                // setError(r.message)
                 if ('Authentication failed' === r.message) {
                     setError('Registration failed: The User already exists. Please try a different email.')
-
                 } else {
                     window.alert('You are now registered, please go back to the login page to log in.');
                 }
