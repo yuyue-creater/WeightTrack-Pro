@@ -185,12 +185,27 @@ const IntakesPage = ({ email }) => {
             .then(data => setFoodNames(data));
     }, []);
 
+    // const fetchIntakes = () => {
+    //     fetch(`http://127.0.0.1:5000/consumes/${email}`)
+    //         .then(response => response.json())
+    //         .then(data => setIntakes(data))
+    //         .catch(error => console.error('Error fetching intakes:', error));
+    // };
+
     const fetchIntakes = () => {
         fetch(`http://127.0.0.1:5000/consumes/${email}`)
             .then(response => response.json())
-            .then(data => setIntakes(data))
+            .then(data => {
+                const mappedData = data.map(item => ({
+                    foodName: item.foodName,
+                    food_object: item.food_object,
+                    amount: item.amount
+                }));
+                setIntakes(mappedData);
+            })
             .catch(error => console.error('Error fetching intakes:', error));
     };
+
 
     const handleAddFood = () => {
         if (!foodType) {
@@ -227,10 +242,10 @@ const IntakesPage = ({ email }) => {
                 timeTaken: new Date().toISOString()
             })
         })
-        
+
             .then(response => response.json())
             .then(data => console.log(data))
-            
+
             .catch(error => console.error('Error:', error));
 
 
@@ -238,7 +253,7 @@ const IntakesPage = ({ email }) => {
         setFoodType('');
         setFoodName('');
         setQuantity('');
-        setShowAddFoodForm(false);
+        // setShowAddFoodForm(false);
         setError('');
         window.alert('Intake added, press "Show All Intakes" to see your new updates');
     };
@@ -249,15 +264,16 @@ const IntakesPage = ({ email }) => {
             <button onClick={fetchIntakes}>Show All Intakes</button>
             <table style={styles.table}>
                 <thead>
-                <tr>
-                         <th>Food Type</th>
-                         <th>Food Name</th>
-                         <th>Quantity</th>
-                     </tr>
+                    <tr>
+                        <th>Food Type</th>
+                        <th>Food Name</th>
+                        <th>Quantity</th>
+                    </tr>
                 </thead>
                 <tbody>
                     {intakes.map((intake, index) => (
                         <tr key={index}>
+                            <td>{intake.foodName}</td>
                             <td>{intake.food_object}</td>
                             <td>{intake.amount}</td>
                         </tr>
@@ -288,7 +304,6 @@ const IntakesPage = ({ email }) => {
         </div>
     );
 };
-
 const styles = {
     container: {
         display: 'flex',
@@ -303,14 +318,20 @@ const styles = {
     th: {
         border: '1px solid #ddd',
         padding: '8px',
-        textAlign: 'left',
+        textAlign: 'center',
         backgroundColor: '#f2f2f2',
     },
     td: {
         border: '1px solid #ddd',
         padding: '8px',
+        textAlign: 'center',
+    },
+    tdLeft: {
+        border: '1px solid #ddd',
+        padding: '8px',
         textAlign: 'left',
     },
 };
+
 
 export default IntakesPage;
