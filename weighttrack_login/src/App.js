@@ -29,6 +29,7 @@ import UserPage from './UserPage';
 import Register from './Register';
 import Intakes from './Intakes';
 import IntakesPage from './IntakesPage';
+import IntakesEvent from './IntakesEvent';
 
 const App = () => {
     const isLoggedIn = !!localStorage.getItem('user');
@@ -47,6 +48,9 @@ const App = () => {
                 <Route path="/register" element={<Register />} />
                 <Route path="/intakes" element={<Intakes email={email}/>} />
                 <Route path="/intakesPage" element={<IntakesPage email={email}/>} />
+                <Route path="/intakesEvent" element={<IntakesEvent email={email}/>} />
+ 
+  
                
 
             </Routes>

@@ -103,6 +103,10 @@ const UserPage = ({ email }) => {
                 <br></br><br></br>
                 <button>Progress</button>
                 <br></br><br></br>
+                <Link to="/intakeEvent">
+                    <button>Intake Events</button>
+                </Link>
+
 
             </div>
         </div>
