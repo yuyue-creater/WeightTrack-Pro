@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const IntakesEvent = ({ email }) => {
 
@@ -8,14 +9,7 @@ const IntakesEvent = ({ email }) => {
     const [eventTime, setEventTime] = useState('');
     const [events, setEvents] = useState([]);
 
-
-
-
     const handleAddIntake = () => {
-        console.log(eventType)
-        console.log(eventName)
-        console.log(eventTime)
-
         fetch(`http://127.0.0.1:5000/addEvent/${email}`, {
             method: 'POST',
             headers: {
@@ -25,7 +19,6 @@ const IntakesEvent = ({ email }) => {
                 eventType: eventType,
                 eventName: eventName,
                 eventTime: eventTime,
-            
             }),
         })
         .then(response => {
@@ -106,9 +99,10 @@ const IntakesEvent = ({ email }) => {
             .then((data) => {
                 console.log('Raw data from API:', data);
                 const allEvents = data.map(item => ({
-                    eventName: item[0],
-                    totalCalories: item[1],
-                    eventTime: item[2],
+                    eventID: item[0],
+                    eventName: item[1],
+                    totalCalories: item[2],
+                    eventTime: item[3],
                 }))
                 console.log('allevents data:', allEvents);
                 setEvents(allEvents);
@@ -176,6 +170,9 @@ const IntakesEvent = ({ email }) => {
                         <div style={{ marginRight: '10px' }}>Name: {event.eventName}</div>
                         <div style={{ marginRight: '10px' }}>Calories: {event.totalCalories}</div>
                         <div>Time: {event.eventTime}</div>
+                        <button>Delete</button>
+                        <td><Link to={`/intakesPage/${event.eventID}`}>View Details</Link></td>
+
                     </div>
                 ))}
             </div>

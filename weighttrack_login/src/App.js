@@ -47,12 +47,8 @@ const App = () => {
                 <Route path="/userpage" element={<UserPage email={email} weight={weight} age={age} height={height} />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/intakes" element={<Intakes email={email}/>} />
-                <Route path="/intakesPage" element={<IntakesPage email={email}/>} />
+                <Route path="/intakesPage/:eventID" element={<IntakesPage email={email}/>} />
                 <Route path="/intakesEvent" element={<IntakesEvent email={email}/>} />
- 
-  
-               
-
             </Routes>
         </Router>
 

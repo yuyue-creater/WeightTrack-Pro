@@ -185,12 +185,6 @@ const IntakesPage = ({ email }) => {
             .then(data => setFoodNames(data));
     }, []);
 
-    // const fetchIntakes = () => {
-    //     fetch(`http://127.0.0.1:5000/consumes/${email}`)
-    //         .then(response => response.json())
-    //         .then(data => setIntakes(data))
-    //         .catch(error => console.error('Error fetching intakes:', error));
-    // };
 
     const fetchIntakes = () => {
         fetch(`http://127.0.0.1:5000/consumes/${email}`)
@@ -300,7 +294,6 @@ const IntakesPage = ({ email }) => {
                 <button onClick={() => setShowAddFoodForm(true)}>Add Food</button>
             )}
 
-            {/* Your existing code for adding new food intake */}
         </div>
     );
 };
