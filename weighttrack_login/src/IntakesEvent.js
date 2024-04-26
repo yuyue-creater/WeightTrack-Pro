@@ -6,6 +6,7 @@ const IntakesEvent = ({ email }) => {
     const [eventType, setEventType] = useState('');
     const [eventName, setEventName] = useState('');
     const [eventTime, setEventTime] = useState('');
+    const [events, setEvents] = useState([]);
 
 
 
@@ -33,6 +34,18 @@ const IntakesEvent = ({ email }) => {
             }
             return response.json();
         })
+        .then(() => {
+            // After successfully adding the event, update the list of events
+            handleShowEvents();
+            // Reset the input fields
+            setEventType('');
+            setEventName('');
+            setEventTime('');
+        })
+        .catch((error) => {
+            setError('Failed to add event. Please try again.');
+            console.error('Error:', error);
+        });
             
 
 
@@ -43,33 +56,73 @@ const IntakesEvent = ({ email }) => {
         border: '1px solid #ccc',
         borderRadius: '5px',
         padding: '20px',
-        width: '300px',
+        width: '400px', // Increased width for more space
         textAlign: 'center',
         boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
         backgroundColor: '#f9f9f9',
         margin: 'auto',
+        marginTop: '20px', // Added margin-top for spacing from the top
     };
-
+    
     const containerStyle = {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh',
+        minHeight: '100vh', // Changed height to minHeight to allow for vertical centering
     };
-
+    
     const inputStyle = {
-        marginBottom: '10px',
+        marginBottom: '15px', // Increased marginBottom for more spacing between inputs
         textAlign: 'left',
         width: '100%',
         boxSizing: 'border-box',
         padding: '8px',
     };
-
+    
     const labelStyle = {
         display: 'block',
-        marginBottom: '5px',
+        marginBottom: '10px', // Increased marginBottom for more spacing between labels
         textAlign: 'left',
     };
+    
+
+    useEffect(() => {
+        handleShowEvents();
+    }, []); 
+
+    const handleShowEvents = () => {
+        fetch(`http://127.0.0.1:5000/collectEvent/${email}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch events. Server returned ' + response.status);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                console.log('Raw data from API:', data);
+                const allEvents = data.map(item => ({
+                    eventName: item[0],
+                    totalCalories: item[1],
+                    eventTime: item[2],
+                }))
+                console.log('allevents data:', allEvents);
+                setEvents(allEvents);
+            })
+            .catch((error) => {
+                setError('Failed to fetch events. Please try again.');
+                console.error('Error:', error);
+            });
+    };
+
+
+    
+
+
 
     return (
         <div style={containerStyle}>
@@ -115,6 +168,18 @@ const IntakesEvent = ({ email }) => {
 
                 <button onClick={handleAddIntake}>Add Event</button>
                 {error && <p style={{ color: 'red' }}>{error}</p>}
+                <div>
+                {/* <button onClick={handleShowEvents}>Show Events</button> */}
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                {events.map((event, index) => (
+                    <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
+                        <div style={{ marginRight: '10px' }}>Name: {event.eventName}</div>
+                        <div style={{ marginRight: '10px' }}>Calories: {event.totalCalories}</div>
+                        <div>Time: {event.eventTime}</div>
+                    </div>
+                ))}
+            </div>
+                
             </div>
         </div>
     );

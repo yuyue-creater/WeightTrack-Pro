@@ -326,12 +326,6 @@ const styles = {
         padding: '8px',
         textAlign: 'center',
     },
-    tdLeft: {
-        border: '1px solid #ddd',
-        padding: '8px',
-        textAlign: 'left',
-    },
 };
-
 
 export default IntakesPage;
