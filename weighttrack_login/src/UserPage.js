@@ -103,7 +103,7 @@ const UserPage = ({ email }) => {
                 <br></br><br></br>
                 <button>Progress</button>
                 <br></br><br></br>
-                <Link to="/intakeEvent">
+                <Link to="/intakesEvent">
                     <button>Intake Events</button>
                 </Link>
 
