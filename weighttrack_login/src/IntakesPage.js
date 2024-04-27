@@ -11,6 +11,9 @@ const IntakesPage = ({ email }) => {
     const [showAddFoodForm, setShowAddFoodForm] = useState(false);
     const [error, setError] = useState('');
 
+    const [eventName, setEventName] = useState('');
+    const [eventTime, setEventTime] = useState('');
+
     // Fetch food names and units from the serer
     useEffect(() => {
         fetch('http://127.0.0.1:5000/food')
@@ -27,12 +30,27 @@ const IntakesPage = ({ email }) => {
                     foodName: item.foodName,
                     food_object: item.food_object,
                     amount: item.amount,
-                   // eventID: item.intakeEventID
+                    // eventID: item.intakeEventID
                 }));
                 setIntakes(mappedData);
+                fetch(`http://127.0.0.1:5000/eventNameTime/${email}/${eventID}`)
+                    .then(response => response.json())
+                    .then(eventData => {
+                        if (eventData.length > 0) {
+                            const { intakeEventName, eventTime } = eventData[0];
+                            setEventName(intakeEventName);
+                            setEventTime(eventTime);
+                            console.log(intakeEventName);
+                            console.log(eventTime);
+                        }
+                    })
+                    .catch(error => console.error('Error fetching event data:', error));
+
             })
             .catch(error => console.error('Error fetching intakes:', error));
     };
+
+
 
 
     const handleAddFood = () => {
@@ -59,7 +77,7 @@ const IntakesPage = ({ email }) => {
         setIntakes([...intakes, newIntake]);
 
         fetch('http://127.0.0.1:5000/intakes/' + email, {
-            
+
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -73,11 +91,11 @@ const IntakesPage = ({ email }) => {
             })
         })
 
-       
+
             .then(response => response.json())
             .then(data => console.log(data))
 
-      
+
 
             .catch(error => console.error('Error:', error));
 
@@ -95,6 +113,8 @@ const IntakesPage = ({ email }) => {
         <div style={styles.container}>
             <h2>Intakes</h2>
             <p>Intake Event ID: {eventID}</p>
+            <p>Event Name: {eventName}</p>
+            <p>Event Time: {eventTime}</p>
             <button onClick={fetchIntakes}>Show All Intakes</button>
             <table style={styles.table}>
                 <thead>
