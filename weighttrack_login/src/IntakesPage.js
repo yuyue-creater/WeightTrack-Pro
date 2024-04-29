@@ -71,17 +71,14 @@ const IntakesPage = ({ email }) => {
             setError('Please select a food type.');
             return;
         }
-
         if (!foodName) {
             setError('Please enter a food name.');
             return;
         }
-
         if (quantity <= 0) {
             setError('Quantity must be greater than 0.');
             return;
         }
-
         const selectedFood = foodNames.find(food => food.foodName === foodType);
         const calories = selectedFood.Calories * quantity;
 
@@ -104,12 +101,8 @@ const IntakesPage = ({ email }) => {
             })
         })
 
-
             .then(response => response.json())
             .then(data => console.log(data))
-
-
-
             .catch(error => console.error('Error:', error));
 
 
@@ -148,7 +141,7 @@ const IntakesPage = ({ email }) => {
                 </tbody>
                 
             </table>
-            <p>Total Calories: {eventCalories}</p>
+       
             {showAddFoodForm ? (
                 <div>
                     <label htmlFor="foodType">Food Type:</label>
@@ -173,6 +166,7 @@ const IntakesPage = ({ email }) => {
 
             <br></br>
             <button onClick={() => calculateCalories()}>Submit</button>
+            <a href="/IntakesEvent">Back to Events</a>
 
         </div>
     );

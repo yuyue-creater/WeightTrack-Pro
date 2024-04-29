@@ -40,9 +40,6 @@ const IntakesEvent = ({ email }) => {
             console.error('Error:', error);
         });
             
-
-
-        // Implement logic to add intake
     };
 
     const boxStyle = {
@@ -113,11 +110,6 @@ const IntakesEvent = ({ email }) => {
             });
     };
 
-
-    
-
-
-
     return (
         <div style={containerStyle}>
             <div style={boxStyle}>
@@ -176,7 +168,7 @@ const IntakesEvent = ({ email }) => {
                     </div>
                 ))}
             </div>
-                
+             <a href="/userpage">Back to UserPage</a>
             </div>
         </div>
     );
