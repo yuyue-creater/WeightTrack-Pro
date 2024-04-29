@@ -13,6 +13,8 @@ const IntakesPage = ({ email }) => {
 
     const [eventName, setEventName] = useState('');
     const [eventTime, setEventTime] = useState('');
+    const [eventCalories, setEventCalories] = useState(0);
+    
 
     // Fetch food names and units from the serer
     useEffect(() => {
@@ -33,7 +35,7 @@ const IntakesPage = ({ email }) => {
                     // eventID: item.intakeEventID
                 }));
                 setIntakes(mappedData);
-                fetch(`http://127.0.0.1:5000/eventNameTime/${email}/${eventID}`)
+                fetch(`http://127.0.0.1:5000/eventNameTime/${eventID}`)
                     .then(response => response.json())
                     .then(eventData => {
                         if (eventData.length > 0) {
@@ -50,6 +52,17 @@ const IntakesPage = ({ email }) => {
             .catch(error => console.error('Error fetching intakes:', error));
     };
 
+
+
+    const calculateCalories = () => {
+        fetch(`http://127.0.0.1:5000/eventCalories/${eventID}`)
+            .then(response => response.json())
+            .then(eventCalories => {
+                const totalCalories = eventCalories[0];
+                console.log(totalCalories)
+                setEventCalories(totalCalories);
+            })
+    }
 
 
 
@@ -133,7 +146,9 @@ const IntakesPage = ({ email }) => {
                         </tr>
                     ))}
                 </tbody>
+                
             </table>
+            <p>Total Calories: {eventCalories}</p>
             {showAddFoodForm ? (
                 <div>
                     <label htmlFor="foodType">Food Type:</label>
@@ -149,10 +164,15 @@ const IntakesPage = ({ email }) => {
                     <input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
                     {error && <p style={{ color: 'red' }}>{error}</p>}
                     <button onClick={handleAddFood}>Add Food</button>
+
+
                 </div>
             ) : (
                 <button onClick={() => setShowAddFoodForm(true)}>Add Food</button>
             )}
+
+            <br></br>
+            <button onClick={() => calculateCalories()}>Submit</button>
 
         </div>
     );
