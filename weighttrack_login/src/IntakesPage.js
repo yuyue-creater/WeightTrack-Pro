@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import './styles.css'
 
 const IntakesPage = ({ email }) => {
     const { eventID } = useParams();
@@ -13,6 +14,7 @@ const IntakesPage = ({ email }) => {
 
     const [eventName, setEventName] = useState('');
     const [eventTime, setEventTime] = useState('');
+    const [eventType, setEventType] = useState('');
     const [eventCalories, setEventCalories] = useState(0);
     
 
@@ -39,11 +41,15 @@ const IntakesPage = ({ email }) => {
                     .then(response => response.json())
                     .then(eventData => {
                         if (eventData.length > 0) {
-                            const { intakeEventName, eventTime } = eventData[0];
+                            console.log(eventData[0]);
+                            const { intakeEventName, eventTime, eventType } = eventData[0];
                             setEventName(intakeEventName);
                             setEventTime(eventTime);
+                            setEventType(eventData[0]['intakeEventType']);
                             console.log(intakeEventName);
                             console.log(eventTime);
+                            console.log(eventType)
+                            console.log(eventData[0]['intakeEventType'])
                         }
                     })
                     .catch(error => console.error('Error fetching event data:', error));
@@ -117,19 +123,20 @@ const IntakesPage = ({ email }) => {
 
     return (
         <div style={styles.container}>
-            <h2>Intakes</h2>
-            <p>Intake Event ID: {eventID}</p>
-            <p>Event Name: {eventName}</p>
-            <p>Event Time: {eventTime}</p>
-            <button onClick={fetchIntakes}>Show All Intakes</button>
+            <h2 class='title'>Intakes</h2>
+            <p class='event-info'>Intake Event ID: {eventID}</p>
+            <p class='event-info'>Event Type: {eventType}</p>
+            <p class='event-info'>Event Name: {eventName}</p>
+            <p class='event-info'>Event Time: {eventTime}</p>
+            <button class='btn' onClick={fetchIntakes}>Show All Intakes</button>
             <table style={styles.table}>
-                <thead>
+                <tbody>
                     <tr>
                         <th>Food Type</th>
                         <th>Food Name</th>
                         <th>Quantity</th>
                     </tr>
-                </thead>
+                </tbody>
                 <tbody>
                     {intakes.map((intake, index) => (
                         <tr key={index}>
@@ -176,11 +183,16 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        padding: '20px',
+        backgroundColor: '#f9f9f9',
+        border: '10px'
+       
     },
     table: {
         borderCollapse: 'collapse',
         width: '100%',
         marginTop: '20px',
+        textAlign: 'center'
     },
     th: {
         border: '1px solid #ddd',
@@ -192,7 +204,9 @@ const styles = {
         border: '1px solid #ddd',
         padding: '8px',
         textAlign: 'center',
-    },
+    }
+
 };
+
 
 export default IntakesPage;
