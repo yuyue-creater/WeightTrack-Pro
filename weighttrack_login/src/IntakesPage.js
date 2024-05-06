@@ -11,6 +11,7 @@ const IntakesPage = ({ email }) => {
     const [quantity, setQuantity] = useState('');
     const [showAddFoodForm, setShowAddFoodForm] = useState(false);
     const [error, setError] = useState('');
+    const [unit, setUnit] = useState('');
 
     const [eventName, setEventName] = useState('');
     const [eventTime, setEventTime] = useState('');
@@ -34,6 +35,7 @@ const IntakesPage = ({ email }) => {
                     foodName: item.foodName,
                     food_object: item.food_object,
                     amount: item.amount,
+                    unit: item.unit,
                     // eventID: item.intakeEventID
                 }));
                 setIntakes(mappedData);
@@ -121,7 +123,14 @@ const IntakesPage = ({ email }) => {
         window.alert('Intake added, press "Show All Intakes" to see your new updates');
     };
 
+    const tableSyle = {
+        border: '1px solid black',
+        textAlign: 'center'
+     
+    };
+
     return (
+        
         <div style={styles.container}>
             <h2 class='title'>Intakes</h2>
             <p class='event-info'>Intake Event ID: {eventID}</p>
@@ -129,20 +138,20 @@ const IntakesPage = ({ email }) => {
             <p class='event-info'>Event Name: {eventName}</p>
             <p class='event-info'>Event Time: {eventTime}</p>
             <button class='btn' onClick={fetchIntakes}>Show All Intakes</button>
-            <table style={styles.table}>
+            <table>
                 <tbody>
-                    <tr>
-                        <th>Food Type</th>
-                        <th>Food Name</th>
-                        <th>Quantity</th>
+                    <tr style={tableSyle}>
+                        <th style={tableSyle}>Food Type</th>
+                        <th style={tableSyle}>Food Name</th>
+                        <th style={tableSyle}>Quantity</th>
                     </tr>
                 </tbody>
                 <tbody>
                     {intakes.map((intake, index) => (
                         <tr key={index}>
-                            <td>{intake.foodName}</td>
-                            <td>{intake.food_object}</td>
-                            <td>{intake.amount}</td>
+                            <td style={tableSyle}>{intake.foodName}</td>
+                            <td style={tableSyle}>{intake.food_object}</td>
+                            <td style={tableSyle}>{intake.amount} {intake.unit}</td>
                         </tr>
                     ))}
                 </tbody>
