@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import './styles.css'
+import './styles.css';
+
+import breadandbakedgoods from './Images/breads and baked goods.jpeg';
+import condimentsandspices from './Images/condiments and spices.jpeg';
+import diary from './Images/dairy.jpeg';
+import fruit from './Images/fruit.jpeg';
+import grain from './Images/grain.jpeg';
+import meat from './Images/meat.jpeg';
+import snacks from './Images/snacks.jpeg';
+import sugarsandsweets from './Images/sugars and sweets.jpeg';
+import vegetable from './Images/vegetable.jpeg';
+
+
 
 const IntakesPage = ({ email }) => {
     const { eventID } = useParams();
@@ -17,7 +29,7 @@ const IntakesPage = ({ email }) => {
     const [eventTime, setEventTime] = useState('');
     const [eventType, setEventType] = useState('');
     const [eventCalories, setEventCalories] = useState(0);
-    
+
 
     // Fetch food names and units from the serer
     useEffect(() => {
@@ -52,6 +64,9 @@ const IntakesPage = ({ email }) => {
                             console.log(eventTime);
                             console.log(eventType)
                             console.log(eventData[0]['intakeEventType'])
+                            console.log('Image');
+
+
                         }
                     })
                     .catch(error => console.error('Error fetching event data:', error));
@@ -69,6 +84,7 @@ const IntakesPage = ({ email }) => {
                 const totalCalories = eventCalories[0];
                 console.log(totalCalories)
                 setEventCalories(totalCalories);
+
             })
     }
 
@@ -123,14 +139,23 @@ const IntakesPage = ({ email }) => {
         window.alert('Intake added, press "Show All Intakes" to see your new updates');
     };
 
-    const tableSyle = {
+    const tableStyle = {
         border: '1px solid black',
         textAlign: 'center'
-     
     };
 
+    const addButton = {
+        backgroundColor: '#04AA6D',
+
+        color: 'white',
+        padding: '15px 32px',
+        textalign: 'center',
+        display: 'inline-block',
+        fontsize: '16px'
+    }
+
     return (
-        
+
         <div style={styles.container}>
             <h2 class='title'>Intakes</h2>
             <p class='event-info'>Intake Event ID: {eventID}</p>
@@ -140,24 +165,38 @@ const IntakesPage = ({ email }) => {
             <button class='btn' onClick={fetchIntakes}>Show All Intakes</button>
             <table>
                 <tbody>
-                    <tr style={tableSyle}>
-                        <th style={tableSyle}>Food Type</th>
-                        <th style={tableSyle}>Food Name</th>
-                        <th style={tableSyle}>Quantity</th>
+                    <tr style={tableStyle}>
+                        <th style={tableStyle}>Food Type</th>
+                        <th style={tableStyle}>Food Name</th>
+                        <th style={tableStyle}>Quantity</th>
                     </tr>
                 </tbody>
                 <tbody>
                     {intakes.map((intake, index) => (
                         <tr key={index}>
-                            <td style={tableSyle}>{intake.foodName}</td>
-                            <td style={tableSyle}>{intake.food_object}</td>
-                            <td style={tableSyle}>{intake.amount} {intake.unit}</td>
+                            <td style={tableStyle}>{intake.foodName}</td>
+                            <td style={tableStyle}>{intake.food_object}</td>
+                            <td style={tableStyle}>{intake.amount} {intake.unit}(s)</td>
+                         
+                            <td style={tableStyle}>
+                                {intake.foodName.toLowerCase() === 'breads and baked goods' && <img src={breadandbakedgoods} alt="Breads and Baked Goods" style={{ width: '50px', height: '50px' }} />}
+                                {intake.foodName.toLowerCase() === 'condiments and spices' && <img src={condimentsandspices} alt="Condiments and Spices" style={{ width: '50px', height: '50px' }} />}
+                                {intake.foodName.toLowerCase() === 'dairy' && <img src={diary} alt="Dairy" style={{ width: '50px', height: '50px' }} />}
+                                {intake.foodName.toLowerCase() === 'fruit' && <img src={fruit} alt="Fruit" style={{ width: '50px', height: '50px' }} />}
+                                {intake.foodName.toLowerCase() === 'grain' && <img src={grain} alt="Grain" style={{ width: '50px', height: '50px' }} />}
+                                {intake.foodName.toLowerCase() === 'meat' && <img src={meat} alt="Meat" style={{ width: '50px', height: '50px' }} />}
+                                {intake.foodName.toLowerCase() === 'snacks' && <img src={snacks} alt="Snacks" style={{ width: '50px', height: '50px' }} />}
+                                {intake.foodName.toLowerCase() === 'sugars and sweets' && <img src={sugarsandsweets} alt="Sugars and Sweets" style={{ width: '50px', height: '50px' }} />}
+                                {intake.foodName.toLowerCase() === 'vegetable' && <img src={vegetable} alt="Vegetable" style={{ width: '50px', height: '50px' }} />}
+                            </td>
+
+
                         </tr>
                     ))}
                 </tbody>
-                
+
             </table>
-       
+
             {showAddFoodForm ? (
                 <div>
                     <label htmlFor="foodType">Food Type:</label>
@@ -177,7 +216,7 @@ const IntakesPage = ({ email }) => {
 
                 </div>
             ) : (
-                <button onClick={() => setShowAddFoodForm(true)}>Add Food</button>
+                <button style={addButton} onClick={() => setShowAddFoodForm(true)}>Add Food</button>
             )}
 
             <br></br>
@@ -189,13 +228,14 @@ const IntakesPage = ({ email }) => {
 };
 const styles = {
     container: {
+
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         padding: '20px',
-        backgroundColor: '#f9f9f9',
+        backgroundColor: 'aquamarine',
         border: '10px'
-       
+
     },
     table: {
         borderCollapse: 'collapse',

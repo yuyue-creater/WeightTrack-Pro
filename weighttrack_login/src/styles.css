@@ -1,11 +1,16 @@
+
+
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 20px;
     background-color: #f9f9f9;
+    border: 10px solid #ddd;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: aquamarine;
 }
 
 .title {
@@ -15,22 +20,19 @@
 }
 
 .event-info {
-    font-size: 16px;
-
-    margin-bottom: 10px;
-  
-    color: #000000;
+    color: #007bff;
+    font-size: 26px;
+    margin-bottom: 5px;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 .btn {
-    padding: 8px 16px;
-    margin-top: 10px;
     background-color: #007bff;
-    color: white;
+    color: #fff;
     border: none;
-    border-radius: 5px;
+    padding: 5px 10px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    margin-top: 10px;
 }
 
 .btn:hover {
@@ -44,12 +46,10 @@
     text-align: center; */
     display: grid;
     grid-template-columns: auto auto auto;
-    border: 1px solid black;
-   
-   
-
-    
+    border: 1px solid black; 
 }
+
+
 
 .table th,
 .table td {
