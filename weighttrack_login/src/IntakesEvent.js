@@ -9,6 +9,8 @@ const IntakesEvent = ({ email }) => {
     const [eventName, setEventName] = useState('');
     const [eventTime, setEventTime] = useState('');
     const [events, setEvents] = useState([]);
+    const [eventDate, setEventDate] = useState('');
+
 
     const handleAddIntake = () => {
         if (!eventType) {
@@ -23,6 +25,10 @@ const IntakesEvent = ({ email }) => {
             setError('Please select a time.');
             return;
         }
+        if (!eventDate) {
+            setError('Please select a date.');
+            return;
+        }
         fetch(`http://127.0.0.1:5000/addEvent/${email}`, {
             method: 'POST',
             headers: {
@@ -32,6 +38,7 @@ const IntakesEvent = ({ email }) => {
                 eventType: eventType,
                 eventName: eventName,
                 eventTime: eventTime,
+                eventDate: eventDate,
             }),
         })
             .then(response => {
@@ -43,10 +50,10 @@ const IntakesEvent = ({ email }) => {
             .then(() => {
                 // After successfully adding the event, update the list of events
                 handleShowEvents();
-                // Reset the input fields
                 setEventType('');
                 setEventName('');
                 setEventTime('');
+                setEventDate('');
             })
             .catch((error) => {
                 setError('Failed to add event. Please try again.');
@@ -72,16 +79,37 @@ const IntakesEvent = ({ email }) => {
                 return response.json();
             })
             .then((data) => {
-                const allEvents = data.map(item => ({
-                    eventID: item[0],
-                    eventName: item[1],
-                    totalCalories: item[2],
-                    eventTime: item[3],
-                    eventType: item[4],
+                // const allEvents = data.map(item => ({
 
-                }));
+                //     const parsedDate = new Date(item[4]); // Parse the eventDate string to a Date object
+                //     const formattedDate = parsedDate.toISOString().split('T')[0]; // Format the Date object to YYYY-MM-DD
+
+
+                    
+                //     eventID: item[0],
+                //     eventName: item[1],
+                //     totalCalories: item[2],
+                //     eventTime: item[3],
+                //     eventDate: item[4],
+                //     eventType: item[5],
+
+                // }));
+                const allEvents = data.map(item => {
+                    const parsedDate = new Date(item[4]); // Parse the eventDate string to a Date object
+                    const formattedDate = parsedDate.toISOString().split('T')[0]; // Format the Date object to YYYY-MM-DD
+                    return {
+                        eventID: item[0],
+                        eventName: item[1],
+                        totalCalories: item[2],
+                        eventTime: item[3],
+                        eventDate: formattedDate, // Use the formatted date
+                        eventType: item[5],
+                    };
+                });
+                
+
                 setEvents(allEvents);
-            })         
+            })
             .catch((error) => {
                 setError('Failed to fetch events. Please try again.');
                 console.error('Error:', error);
@@ -106,7 +134,7 @@ const IntakesEvent = ({ email }) => {
                 console.error('Error:', error);
             });
     };
-    
+
     const boxStyle = {
         border: '1px solid #ccc',
         borderRadius: '5px',
@@ -145,14 +173,14 @@ const IntakesEvent = ({ email }) => {
         border: 'none',
         borderRadius: '5px',
         cursor: 'pointer',
-        
+
     };
 
     const linkStyle = {
         color: 'blue',
         textDecoration: 'none',
     };
-    
+
 
     const inputStyle = {
         marginBottom: '15px', // Increased marginBottom for more spacing between inputs
@@ -169,7 +197,7 @@ const IntakesEvent = ({ email }) => {
     };
 
     return (
-        <div style = {containerStyle}>
+        <div style={containerStyle}>
             <div style={boxStyle}>
                 <div>
                     <h2 style={headerStyle}>Welcome to Weighttrack Pro</h2>
@@ -183,7 +211,7 @@ const IntakesEvent = ({ email }) => {
                         onChange={(e) => setEventType(e.target.value)}
                         required
                     >
-                        <option key="default" value="breakfast">Select event type</option>
+                        <option key="default" value="">Select event type</option>
                         <option value="breakfast">Breakfast</option>
                         <option value="lunch">Lunch</option>
                         <option value="supper">Supper</option>
@@ -209,6 +237,15 @@ const IntakesEvent = ({ email }) => {
                         placeholder="Enter event time"
                         required
                     />
+                    <label style={labelStyle}>Enter the date of the event:</label>
+                    <input
+                        style={inputStyle}
+                        type="date"
+                        value={eventDate}
+                        onChange={(e) => setEventDate(e.target.value)}
+                        required
+                    />
+
 
                     <button style={buttonStyle} onClick={handleAddIntake}>Add Event</button>
                     {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -218,13 +255,15 @@ const IntakesEvent = ({ email }) => {
                     <br></br>
 
                     <div>
-              
+
                         {events.map((event, index) => (
                             <div key={index} style={{ marginBottom: '10px' }}>
                                 <div><strong>Type:</strong> {event.eventType}</div>
                                 <div><strong>Name:</strong> {event.eventName}</div>
                                 <div><strong>Calories:</strong> {event.totalCalories}</div>
+                                <div><strong>Date: </strong> {event.eventDate}</div>
                                 <div><strong>Time: </strong> {event.eventTime}</div>
+                                
                                 <div><button onClick={() => handleDeleteEvent(event.eventID)}>Remove Event</button></div>
                                 <Link styke={linkStyle} to={`/intakesPage/${event.eventID}`}>View Details</Link>
                                 <br></br>
@@ -232,10 +271,10 @@ const IntakesEvent = ({ email }) => {
                                 <br></br>
                             </div>
                         ))}
-               
+
                     </div>
-                   
-                
+
+
                 </div>
             </div>
         </div>
