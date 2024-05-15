@@ -30,6 +30,7 @@ import Register from './Register';
 import Intakes from './Intakes';
 import IntakesPage from './IntakesPage';
 import IntakesEvent from './IntakesEvent';
+import Progress from './Progess';
 
 const App = () => {
     const isLoggedIn = !!localStorage.getItem('user');
@@ -49,6 +50,7 @@ const App = () => {
                 <Route path="/intakes" element={<Intakes email={email}/>} />
                 <Route path="/intakesPage/:eventID" element={<IntakesPage email={email}/>} />
                 <Route path="/intakesEvent" element={<IntakesEvent email={email}/>} />
+                <Route path="/progess" element={<Progress email = {email}/>} />
             </Routes>
         </Router>
 

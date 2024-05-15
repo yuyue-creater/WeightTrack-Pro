@@ -79,21 +79,6 @@ const IntakesEvent = ({ email }) => {
                 return response.json();
             })
             .then((data) => {
-                // const allEvents = data.map(item => ({
-
-                //     const parsedDate = new Date(item[4]); // Parse the eventDate string to a Date object
-                //     const formattedDate = parsedDate.toISOString().split('T')[0]; // Format the Date object to YYYY-MM-DD
-
-
-                    
-                //     eventID: item[0],
-                //     eventName: item[1],
-                //     totalCalories: item[2],
-                //     eventTime: item[3],
-                //     eventDate: item[4],
-                //     eventType: item[5],
-
-                // }));
                 const allEvents = data.map(item => {
                     const parsedDate = new Date(item[4]); // Parse the eventDate string to a Date object
                     const formattedDate = parsedDate.toISOString().split('T')[0]; // Format the Date object to YYYY-MM-DD
@@ -102,7 +87,7 @@ const IntakesEvent = ({ email }) => {
                         eventName: item[1],
                         totalCalories: item[2],
                         eventTime: item[3],
-                        eventDate: formattedDate, // Use the formatted date
+                        eventDate: formattedDate,
                         eventType: item[5],
                     };
                 });

@@ -101,7 +101,9 @@ const UserPage = ({ email }) => {
                 <br></br><br></br>
                 <button>Liquid</button>
                 <br></br><br></br>
-                <button>Progress</button>
+                <Link to="/progess">
+                    <button>Progress</button>
+                </Link>
                 <br></br><br></br>
                 <Link to="/intakesEvent">
                     <button>Intake Events</button>
