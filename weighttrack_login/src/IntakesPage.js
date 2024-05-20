@@ -189,8 +189,6 @@ const IntakesPage = ({ email }) => {
                                 {intake.foodName.toLowerCase() === 'sugars and sweets' && <img src={sugarsandsweets} alt="Sugars and Sweets" style={{ width: '50px', height: '50px' }} />}
                                 {intake.foodName.toLowerCase() === 'vegetable' && <img src={vegetable} alt="Vegetable" style={{ width: '50px', height: '50px' }} />}
                             </td>
-
-
                         </tr>
                     ))}
                 </tbody>

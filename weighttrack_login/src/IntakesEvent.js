@@ -91,7 +91,7 @@ const IntakesEvent = ({ email }) => {
                         eventType: item[5],
                     };
                 });
-                
+
 
                 setEvents(allEvents);
             })
@@ -124,7 +124,7 @@ const IntakesEvent = ({ email }) => {
         border: '1px solid #ccc',
         borderRadius: '5px',
         padding: '20px',
-        width: '400px', // Increased width for more space
+        width: '1000px', // Increased width for more space
         textAlign: 'center',
         boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
         backgroundColor: '#f9f9f9',
@@ -179,6 +179,11 @@ const IntakesEvent = ({ email }) => {
         display: 'block',
         marginBottom: '10px', // Increased marginBottom for more spacing between labels
         textAlign: 'left',
+    };
+
+    const tableStyle = {
+        border: '1px solid black',
+        textAlign: 'center'
     };
 
     return (
@@ -239,6 +244,35 @@ const IntakesEvent = ({ email }) => {
                     <br></br>
                     <br></br>
 
+                    <table>
+                        <tbody>
+                            <tr style={tableStyle}>
+                                <th style={tableStyle}>Food Type</th>
+                                <th style={tableStyle}>Food Name</th>
+                                <th style={tableStyle}>Calories</th>
+                                <th style={tableStyle}>Date</th>
+                                <th style={tableStyle}>Time</th>
+                                <th style={tableStyle}>Remove</th>
+                                <th style={tableStyle}>Details</th>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            {events.map((event, index) => (
+                                <tr key={index} style={tableStyle}>
+
+                                    <td style={tableStyle}> {event.eventType}</td>
+                                    <td style={tableStyle}>{event.eventName}</td>
+                                    <td style={tableStyle}>{event.totalCalories}</td>
+                                    <td style={tableStyle}>{event.eventDate}</td>
+                                    <td style={tableStyle}> {event.eventTime}</td>
+                                    <td style={tableStyle}><button onClick={() => handleDeleteEvent(event.eventID)}>Remove Event</button></td>
+                                    <td style={tableStyle}><Link styke={linkStyle} to={`/intakesPage/${event.eventID}`}>View Details</Link></td>
+                                </tr>
+
+                            ))}
+                        </tbody>
+                    </table>
+
                     <div>
 
                         {events.map((event, index) => (
@@ -248,7 +282,7 @@ const IntakesEvent = ({ email }) => {
                                 <div><strong>Calories:</strong> {event.totalCalories}</div>
                                 <div><strong>Date: </strong> {event.eventDate}</div>
                                 <div><strong>Time: </strong> {event.eventTime}</div>
-                                
+
                                 <div><button onClick={() => handleDeleteEvent(event.eventID)}>Remove Event</button></div>
                                 <Link styke={linkStyle} to={`/intakesPage/${event.eventID}`}>View Details</Link>
                                 <br></br>
