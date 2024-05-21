@@ -13,10 +13,10 @@ import sugarsandsweets from './Images/sugars and sweets.jpeg';
 import vegetable from './Images/vegetable.jpeg';
 
 
-
 const IntakesPage = ({ email }) => {
     const { eventID } = useParams();
     const [intakes, setIntakes] = useState([]);
+    
     const [foodNames, setFoodNames] = useState([]);
     const [foodType, setFoodType] = useState('');
     const [foodName, setFoodName] = useState('');
@@ -65,17 +65,12 @@ const IntakesPage = ({ email }) => {
                             console.log(eventType)
                             console.log(eventData[0]['intakeEventType'])
                             console.log('Image');
-
-
                         }
                     })
                     .catch(error => console.error('Error fetching event data:', error));
-
             })
             .catch(error => console.error('Error fetching intakes:', error));
     };
-
-
 
     const calculateCalories = () => {
         fetch(`http://127.0.0.1:5000/eventCalories/${eventID}`)
